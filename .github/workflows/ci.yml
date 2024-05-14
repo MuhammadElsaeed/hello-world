@@ -38,4 +38,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/apps/hello-world:${{ github.sha }}
+        tags: |
+          ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/apps/hello-world:${{ github.sha }}
+          ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/apps/hello-world:latest
