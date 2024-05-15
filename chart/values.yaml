@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: us-east5-docker.pkg.dev/isolution-task/apps/hello-world
+  repository: us-east1-docker.pkg.dev/isolution-task/apps/hello-world
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: 2903b095eac7109b020553bad26c086275401e4c
 
 imagePullSecrets: []
 nameOverride: ""
