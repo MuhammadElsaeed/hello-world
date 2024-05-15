@@ -1,11 +1,15 @@
 name: Basic CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
     paths-ignore:
       - 'chart/**'
+env:
+  image_name: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/apps/hello-world
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -40,12 +44,13 @@ jobs:
       with:
         push: true
         tags: |
-          ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/apps/hello-world:${{ github.sha }}
-          ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/apps/hello-world:latest
+          ${{ env.image_name }}:${{ github.sha }}
+          ${{ env.image_name }}:latest
 
     - name: Update Helm values file
       run: |
-        sed -i "s/tag:.*/tag: '${{ github.sha }}'/g" chart/values.yaml
+        sed -i "s#tag:.*#tag: ${{ github.sha }}#g" chart/values.yaml
+        sed -i "s#repository:.*#repository: ${{ env.image_name }}#g" chart/values.yaml
 
     - name: Commit changes
       run: |
